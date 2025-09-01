@@ -19,22 +19,31 @@ export const HomeButton = ({
 
 export const DropDown = ({
   className = "",
+  optionsObject = {},
   options = [],
-  onChange,
-  Selected = "Company",
+  onChange = () => {},
+  Selected = 1,
 }) => {
   return (
     <div className="flex gap-1 items-center">
       <select
         onChange={onChange}
         value={Selected}
-        className={`bg-transparent text-white  text-sm leading-none rounded-2xl cursor-pointer  border-none ${className}`}
+        className={` text-sm leading-none rounded-2xl cursor-pointer  border-none ${className}`}
       >
-        {options.map((option, index) => (
-          <option key={index} className="text-black" value={option}>
-            {option}
-          </option>
-        ))}
+        {Array.isArray(options) &&
+          options.map((option, index) => (
+            <option key={index} className="text-black" value={option}>
+              {option}
+            </option>
+          ))}
+        {Array.isArray(optionsObject) &&
+          optionsObject.map((option, index) => (
+            <option key={index} className="text-black" value={option.id}>
+              {option.name}
+            </option>
+          ))}
+        ;
       </select>
     </div>
   );

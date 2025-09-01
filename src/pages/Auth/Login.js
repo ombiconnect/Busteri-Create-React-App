@@ -17,21 +17,23 @@ const Login = () => {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
   const navigate = useNavigate();
-
+  const [InputData, setInputData] = useState({
+    email: "",
+    password: "",
+  });
+  const handleChange = (fieldName, value) => {
+    setInputData((prev) => ({ ...prev, [fieldName]: value }));
+  };
   const handleLogin = async () => {
-    const isValid = LoginValidation(
-      emailRef.current.value,
-      passwordRef.current.value
-    );
+    const isValid = LoginValidation(InputData.email, InputData.password);
     if (isValid != true) {
       setError(isValid);
       return;
     }
     const response = await userLogin({
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
+      email: InputData.email,
+      password: InputData.password,
     });
-    console.log(response);
     if (response?.status == 200 || response?.status == 201) {
       localStorage.setItem("AUTH-STATE", response.data.token);
       localStorage.setItem("ID", response.data.id);
@@ -63,14 +65,18 @@ const Login = () => {
           <LogoImg className="h-10 w-32 mt-3" />
           <FormHeader title="Login" className="mt-2" />
           <InputField
-            ref={emailRef}
+            // ref={emailRef}
+            value={InputData.email}
             placeholder="name@Busteri.com"
             className="mt-4"
+            onChange={(e) => handleChange("email", e.target.value)}
           />
           <PasswordField
             placeholder="Password"
             ref={passwordRef}
             className="mt-4"
+            value={InputData.password}
+            onChange={(e) => handleChange("password", e.target.value)}
           />
           <FormMessage
             message={error}

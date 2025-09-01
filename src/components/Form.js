@@ -6,22 +6,38 @@ export const FormHeader = ({ title, className = "" }) => {
   );
 };
 
-export const InputField = ({ placeholder, className = "", ref }) => {
+export const InputField = ({
+  placeholder,
+  className = "",
+  // ref,
+  value = "",
+  onChange = () => {},
+}) => {
   return (
     <input
       type="text"
-      ref={ref}
+      // ref={ref}
+      value={value}
       placeholder={placeholder}
+      onChange={onChange}
       className={`px-4 py-4 bg-[#F8F8F8] border-1 border-[#E7E7E7] rounded-md outline-none ${className}`}
     />
   );
 };
 
-export const PasswordField = ({ placeholder, className = "", ref }) => {
+export const PasswordField = ({
+  placeholder,
+  className = "",
+  value = "",
+  // ref,
+  onChange = { onChange },
+}) => {
   return (
     <input
       type="password"
-      ref={ref}
+      // ref={ref}
+      onChange={onChange}
+      value={value}
       placeholder={placeholder}
       className={`px-4 py-4 bg-[#F8F8F8] border-1 border-[#E7E7E7] rounded-md outline-none ${className}`}
     />
@@ -60,5 +76,16 @@ export const FormMessage = ({
     >
       {message}
     </p>
+  );
+};
+
+export const InputLabel = ({ label, className = "", isManadatory = false }) => {
+  return (
+    <div>
+      <label className={`text-sm font-medium text-[#6aafe2] pl-4 ${className}`}>
+        {label}
+      </label>
+      {isManadatory && <span className="text-red-700">*</span>}
+    </div>
   );
 };

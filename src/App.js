@@ -16,10 +16,12 @@ import Contact from "./pages/Contact/Contact";
 import UpcomingRides from "./pages/UpcomingRides/UpcomingRides";
 import Masters from "./pages/Masters/Masters";
 import Vehicle from "./pages/Masters/Vehicle";
-import Company from "./pages/Masters/Company";
+import Company from "./pages/Masters/Company/Company";
 import Driver from "./pages/Masters/Driver";
 import Schools from "./pages/Masters/Schools";
 import RoutesComponent from "./pages/Masters/Routes";
+import SchoolSchedules from "./pages/SchoolSchedules/SchoolSchedules";
+import AddCompany from "./pages/Masters/Company/AddCompany.js";
 
 function App() {
   const [isTokenAvailable, setIsTokenAvailable] = useState(
@@ -67,6 +69,8 @@ function App() {
                 </Route>
                 <Route path="/Contact" element={<Contact />} />
                 <Route path="/UpcomingRides" element={<UpcomingRides />} />
+                <Route path="/SchoolSchedules" element={<SchoolSchedules />} />
+                <Route path="/AddCompany" element={<AddCompany />} />
               </Route>
             </>
           ) : (
