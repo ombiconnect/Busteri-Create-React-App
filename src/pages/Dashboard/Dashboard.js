@@ -7,7 +7,6 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        console.log("ID _____________", localStorage.getItem("ID"));
         const response = await UserDetails(localStorage.getItem("ID"));
         setUser(response);
       } catch (error) {
