@@ -11,11 +11,12 @@ export const InputField = ({
   className = "",
   // ref,
   value = "",
+  type = "text",
   onChange = () => {},
 }) => {
   return (
     <input
-      type="text"
+      type={type}
       // ref={ref}
       value={value}
       placeholder={placeholder}

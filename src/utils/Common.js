@@ -9,3 +9,13 @@ export const GetAllCities = async () => {
     throw error;
   }
 };
+
+export const GetAllLookupType = async (type) => {
+  try {
+    const res = await getAxios().get(`/common/lookup?typeName=${type}`);
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching vehicle type details:", error);
+    throw error;
+  }
+};

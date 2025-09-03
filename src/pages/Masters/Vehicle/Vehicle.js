@@ -1,100 +1,90 @@
 import { useEffect, useState } from "react";
 import {
-  DeleteCompany,
-  GetAllCompany,
-  GetCompanyById,
-} from "../../../utils/Company";
+  DeleteVehicle,
+  GetAllVehicle,
+  GetVehicleById,
+} from "../../../utils/Vehicle";
 import { TiPencil } from "react-icons/ti";
 import { FaRegTrashAlt } from "react-icons/fa";
 import Modal from "../../../Modal/Modal";
-import AddCompany from "./AddCompany";
-import { BsBuildingAdd } from "react-icons/bs";
+import { BsCarFront } from "react-icons/bs";
 import { Table } from "../../../components/Common";
 import { MasterHeader } from "../MasterCommon";
+import AddVehicle from "./AddVehicle";
 
-const Company = () => {
-  const [CompanyData, setCompanyData] = useState(null);
+const Vehicle = () => {
+  const [VehicleData, setVehicleData] = useState(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isAddModelOpen, setIsAddModalOpen] = useState(false);
   const [isDeleteModelOpen, setIsDeleteModalOpen] = useState(false);
-  const [UpdateCompanyData, setUpdateCompanyData] = useState(null);
-  const [DeleteCompanyData, setDeleteCompanyData] = useState({});
+  const [UpdateVehicleData, setUpdateVehicleData] = useState(null);
+  const [DeleteVehicleData, setDeleteVehicleData] = useState({});
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    const fetchCompanyData = async () => {
-      const data = await GetAllCompany(page);
+    const fetchVehicleData = async () => {
+      const data = await GetAllVehicle(page);
       setTotalPages(data.totalPages);
-      setCompanyData(data.result);
+      setVehicleData(data.result);
       if (data.result.length === 0 && page > 1) {
         setPage(page - 1);
       } else {
         setPage(data.currentPage);
       }
     };
-    fetchCompanyData();
+    fetchVehicleData();
   }, [isDeleteModelOpen, page, isEditModalOpen, isAddModelOpen]);
 
-  const formatAddress = (address) => {
-    if (!address) return "";
-
-    return [
-      address.street1,
-      address.street2,
-      address.cityDetails?.name,
-      address.state,
-      address.country,
-      address.zip,
-    ]
-      .filter(Boolean)
-      .join(" ");
-  };
   const tableData =
-    CompanyData?.map((company) => ({
-      id: company.id,
-      companyName: company.name,
-      address: formatAddress(company.address),
-      city: company.address?.cityDetails?.name || "",
-      website: company.webSite,
+    VehicleData?.map((vehicle) => ({
+      id: vehicle.id,
+      vehicleNumber: vehicle.vehicleNumber,
+      companyName: vehicle?.companyDetails?.name || "",
+      VehicleType: vehicle?.vehicleType || "",
+      engineType: vehicle?.engineType || "",
+      brand: vehicle.brand,
+      totalSeats: vehicle.totalSeats,
+      handicapSeats: vehicle.totalHandicapSeats,
     })) || [];
 
-  const handleEdit = async (company) => {
-    const data = await GetCompanyById(company.id);
-    setUpdateCompanyData(data);
+  const handleEdit = async (vehicle) => {
+    const data = await GetVehicleById(vehicle.id);
+    setUpdateVehicleData(data);
     setIsEditModalOpen(true);
   };
 
-  const handleDelete = async (company) => {
+  const handleDelete = async (vehicle) => {
     setIsDeleteModalOpen(true);
-    setDeleteCompanyData({
-      id: company.id,
-      name: company.companyName,
+    setDeleteVehicleData({
+      id: vehicle.id,
+      name: vehicle.vehicleNumber,
     });
   };
+
   const handleAddPopup = () => {
     setIsAddModalOpen(true);
   };
+
   return (
     <div className="px-8 py-8 w-full">
       <MasterHeader
         AddPopup={handleAddPopup}
-        Heading="Company"
-        AddIcon={<BsBuildingAdd />}
-        AddButtonText="Add Company"
+        Heading="Vehicle"
+        AddIcon={<BsCarFront />}
+        AddButtonText="Add Vehicle"
       />
 
-      {
-        <Table
-          data={tableData}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-          showEdit={true}
-          showDelete={true}
-          editIcon={TiPencil}
-          deleteIcon={FaRegTrashAlt}
-        />
-      }
+      <Table
+        data={tableData}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+        showEdit={true}
+        showDelete={true}
+        editIcon={TiPencil}
+        deleteIcon={FaRegTrashAlt}
+      />
+
       <div className="flex justify-end items-center gap-4 mt-4">
         <button
           onClick={() => {
@@ -121,22 +111,9 @@ const Company = () => {
       </div>
 
       <Modal
-        title={"Edit Company Details"}
+        title={"Add Vehicle Details"}
         body={
-          <AddCompany
-            data={UpdateCompanyData}
-            onSuccess={() => {
-              setIsEditModalOpen(false);
-            }}
-          />
-        }
-        isOpen={isEditModalOpen}
-        onClose={() => setIsEditModalOpen(false)}
-      />
-      <Modal
-        title={"Add Company Details"}
-        body={
-          <AddCompany
+          <AddVehicle
             onSuccess={() => {
               setIsAddModalOpen(false);
             }}
@@ -147,18 +124,32 @@ const Company = () => {
       />
 
       <Modal
-        title={"Delete Company"}
+        title={"Edit Vehicle Details"}
+        body={
+          <AddVehicle
+            data={UpdateVehicleData}
+            onSuccess={() => {
+              setIsEditModalOpen(false);
+            }}
+          />
+        }
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+      />
+
+      <Modal
+        title={"Delete Vehicle"}
         body={
           <h1>
             Are you sure you want to delete
-            <span className="text-red-700"> {DeleteCompanyData.name}</span>?
+            <span className="text-red-700"> {DeleteVehicleData.name}</span>?
           </h1>
         }
         footer={
           <div className="flex justify-end w-full  gap-2">
             <button
               onClick={async () => {
-                await DeleteCompany(DeleteCompanyData.id);
+                await DeleteVehicle(DeleteVehicleData.id);
                 setIsDeleteModalOpen(false);
               }}
               className="bg-black text-white rounded-md px-4 py-2"
@@ -173,4 +164,4 @@ const Company = () => {
     </div>
   );
 };
-export default Company;
+export default Vehicle;

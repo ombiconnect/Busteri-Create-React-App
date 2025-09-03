@@ -15,13 +15,14 @@ import PrivateLayout from "./layout/PrivateLayout";
 import Contact from "./pages/Contact/Contact";
 import UpcomingRides from "./pages/UpcomingRides/UpcomingRides";
 import Masters from "./pages/Masters/Masters";
-import Vehicle from "./pages/Masters/Vehicle";
 import Company from "./pages/Masters/Company/Company";
-import Driver from "./pages/Masters/Driver";
 import Schools from "./pages/Masters/Schools";
-import RoutesComponent from "./pages/Masters/Routes";
 import SchoolSchedules from "./pages/SchoolSchedules/SchoolSchedules";
 import AddCompany from "./pages/Masters/Company/AddCompany.js";
+import Driver from "./pages/Masters/Diver/Driver.js";
+import Vehicle from "./pages/Masters/Vehicle/Vehicle.js";
+import RouteComponent from "./pages/Masters/Routes/RouteComponent.js";
+import { UserProvider } from "./Context/Context.js";
 
 function App() {
   const [isTokenAvailable, setIsTokenAvailable] = useState(
@@ -64,7 +65,7 @@ function App() {
                   <Route path="*" element={<Company />} />
                   <Route path="Driver" element={<Driver />} />
                   <Route path="Vehicle" element={<Vehicle />} />
-                  <Route path="Routes" element={<RoutesComponent />} />
+                  <Route path="Routes" element={<RouteComponent />} />
                   <Route path="School" element={<Schools />} />
                 </Route>
                 <Route path="/Contact" element={<Contact />} />

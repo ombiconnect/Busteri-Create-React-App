@@ -11,7 +11,7 @@ const Header = () => {
   const isMastersActive = location.pathname.startsWith("/Masters");
 
   return (
-    <div className="bg-black">
+    <div className="bg-black sticky top-0">
       <div className="flex justify-end pt-3 pb-3 pr-14 gap-5">
         <FormMessage
           message={"Terms and Policies"}

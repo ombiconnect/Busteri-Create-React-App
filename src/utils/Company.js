@@ -1,8 +1,12 @@
 import { getAxios } from "../helpers/axiosInterceptor";
 export const GetAllCompany = async (currentPage) => {
   try {
+    const paging = currentPage ? true : false;
+    if (!paging) {
+      currentPage = 1;
+    }
     const res = await getAxios().get(
-      `/company?currentPage=${currentPage}&pageSize=5&paging=true`
+      `/company?currentPage=${currentPage}&pageSize=5&paging=${paging}`
     );
     return res.data;
   } catch (error) {

@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
 import { UserDetails } from "../../utils/Auth";
-
+import { useNavigate } from "react-router-dom";
 const Dashboard = () => {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await UserDetails(localStorage.getItem("ID"));
+        const id = localStorage.getItem("ID");
+        if (!id) {
+          navigate("/login");
+        }
+        const response = await UserDetails(id);
         setUser(response);
       } catch (error) {
         console.error("Failed to fetch user:", error);
